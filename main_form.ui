@@ -86,7 +86,7 @@
       <item>
        <widget class="QLabel" name="label_info">
         <property name="text">
-         <string>F9 누르면 시작</string>
+         <string>F10 누르면 시작</string>
         </property>
        </widget>
       </item>

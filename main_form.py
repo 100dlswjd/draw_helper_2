@@ -121,6 +121,6 @@ class Ui_MainWindow(object):
         self.label_range.setText(QCoreApplication.translate("MainWindow", u"\uac04\uaca9", None))
         self.btn_ok.setText(QCoreApplication.translate("MainWindow", u"\ud655\uc778\uc694 ~", None))
         self.label_set_info.setText(QCoreApplication.translate("MainWindow", u"\uc138\ud305 \ub41c \uac12 : ", None))
-        self.label_info.setText(QCoreApplication.translate("MainWindow", u"F9 \ub204\ub974\uba74 \uc2dc\uc791", None))
+        self.label_info.setText(QCoreApplication.translate("MainWindow", u"F10 \ub204\ub974\uba74 \uc2dc\uc791", None))
     # retranslateUi
 
