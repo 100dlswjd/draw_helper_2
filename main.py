@@ -15,6 +15,8 @@ class Mainwindow(QMainWindow, Ui_MainWindow):
         self._width = "0"
         self._height = "0"
         self._range = "0"
+        self.long_delay = .05
+        self.short_delay = .01
         self.btn_ok.clicked.connect(self.btn_ok_handler)
         self.lineEdit_width.textChanged.connect(self.lineEdit_width_handler)
         self.lineEdit_height.textChanged.connect(self.lineEdit_height_handler)
@@ -33,52 +35,75 @@ class Mainwindow(QMainWindow, Ui_MainWindow):
     """
     def thread_proc(self):
         while self.exit_event.is_set() == False:
+            print("제일 바깥임")
+            flag = False
             if win32api.GetAsyncKeyState(win32con.VK_F10) & 0x8000:
                 time.sleep(.25)
+                self.label_info.setText("실행중 . . . (중지 F10)")
                 print("F10 눌름 ! 쓰레드시작 !")
+                self.expect_time = (int(int(self.int_height)/int(self.int_range)) * int(int(self.int_width)/int(self.int_range))) * ( 2 *(self.short_delay + self.long_delay))
                 Pos = win32api.GetCursorPos()
+
                 temPos = [Pos[0], Pos[1]]
-                for height in range(int(int(self._height)/int(self._range))):
-                    for width in range(int(int(self._width)/int(self._range))):
+                for height in range(int(int(self.int_height)/int(self.int_range))):
+                    for width in range(int(int(self.int_width)/int(self.int_range))):
+                        if win32api.GetAsyncKeyState(win32con.VK_F10) & 0x8000:
+                            time.sleep(.25)
+                            flag = True
+                            break
                         keyboard_tool.pressAndHold("alt")
+                        time.sleep(self.short_delay)
                         win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, temPos[0], temPos[1], 0, 0)
-                        time.sleep(.1)
+                        time.sleep(self.long_delay)
                         win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, temPos[0], temPos[1], 0, 0)
                         keyboard_tool.release("alt")
+                        time.sleep(self.short_delay)
                         win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, temPos[0], temPos[1], 0, 0)
-                        time.sleep(.05)
+                        time.sleep(self.long_delay)
                         win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, temPos[0], temPos[1], 0, 0)
                         temPos[0] = temPos[0] + int(self._range)
                         movePos = (temPos[0], temPos[1])
                         win32api.SetCursorPos(movePos)
+                    if flag:
+                        break
                     temPos[0] = Pos[0]
                     temPos[1] = temPos[1] + int(self._range)
                     movePos = (temPos[0], temPos[1])
                     win32api.SetCursorPos(movePos)
                 win32api.SetCursorPos(Pos)
+                self.label_info.setText("끝이요~")
                 
 
     def btn_ok_handler(self):
         self.label_set_info.setText("")
-        text = ""        
+        text = ""
+        flag = True
         if self._width.isdigit():
             text += "너비 : " + self._width + "\n"
-            self._width = int(self._width)
+            self.int_width = int(self._width)
         else:
             text += "너비를 잘못 입력 했습니다.\n"
+            flag = False
 
         if self._height.isdigit():
             text += "높이 : " + self._height + "\n"
-            self._height = int(self._height)
+            self.int_height = int(self._height)
         else:
             text += "높이를 잘못 입력 했습니다.\n"
+            flag = False
         
         if self._range.isdigit():
             text += "간격 : " + self._range + "\n"
-            self._range = int(self._range)
+            self.int_range = int(self._range)
         else:
             text += "간격을 잘못 입력 했습니다.\n"
-
+            flag = False
+        
+        if flag:
+            self.expect_time = int(self.int_width/self.int_range) * int(self.int_height/self.int_range)
+            self.expect_time = self.expect_time * (self.long_delay + self.long_delay + self.short_delay + self.short_delay)
+            self.expect_time = self.expect_time / 60
+            text += "예상 시간 : " + str(self.expect_time) + "분 \n"
         self.label_set_info.setText(text)
         
     def lineEdit_range_handler(self, text):
