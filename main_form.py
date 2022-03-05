@@ -23,7 +23,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(193, 213)
+        MainWindow.resize(193, 243)
         self.centralwidget = QWidget(MainWindow)
         self.centralwidget.setObjectName(u"centralwidget")
         self.gridLayout = QGridLayout(self.centralwidget)
@@ -66,6 +66,21 @@ class Ui_MainWindow(object):
 
         self.verticalLayout.addLayout(self.horizontalLayout_2)
 
+        self.horizontalLayout_3 = QHBoxLayout()
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.label_range = QLabel(self.centralwidget)
+        self.label_range.setObjectName(u"label_range")
+
+        self.horizontalLayout_3.addWidget(self.label_range)
+
+        self.lineEdit_range = QLineEdit(self.centralwidget)
+        self.lineEdit_range.setObjectName(u"lineEdit_range")
+
+        self.horizontalLayout_3.addWidget(self.lineEdit_range)
+
+
+        self.verticalLayout.addLayout(self.horizontalLayout_3)
+
         self.btn_ok = QPushButton(self.centralwidget)
         self.btn_ok.setObjectName(u"btn_ok")
 
@@ -103,8 +118,9 @@ class Ui_MainWindow(object):
         self.label.setText(QCoreApplication.translate("MainWindow", u"\uadf8\ub9bc \uc790\ub3d9 \uadf8\ub9ac\uae30 \ud504\ub85c\uadf8\ub7a8", None))
         self.label_width.setText(QCoreApplication.translate("MainWindow", u"\ub108\ube44", None))
         self.label_height.setText(QCoreApplication.translate("MainWindow", u"\ub192\uc774", None))
+        self.label_range.setText(QCoreApplication.translate("MainWindow", u"\uac04\uaca9", None))
         self.btn_ok.setText(QCoreApplication.translate("MainWindow", u"\ud655\uc778\uc694 ~", None))
         self.label_set_info.setText(QCoreApplication.translate("MainWindow", u"\uc138\ud305 \ub41c \uac12 : ", None))
-        self.label_info.setText(QCoreApplication.translate("MainWindow", u"\ud0a4\ubcf4\ub4dc \ub118\ubc84\ud328\ub4dc '5' \ub204\ub974\uba74 \uc2dc\uc791", None))
+        self.label_info.setText(QCoreApplication.translate("MainWindow", u"F9 \ub204\ub974\uba74 \uc2dc\uc791", None))
     # retranslateUi
 
