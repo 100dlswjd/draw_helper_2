@@ -15,8 +15,8 @@ class Mainwindow(QMainWindow, Ui_MainWindow):
         self._width = "0"
         self._height = "0"
         self._range = "0"
-        self.long_delay = .05
-        self.short_delay = .01
+        self.long_delay = .01
+        self.short_delay = .05
         self.btn_ok.clicked.connect(self.btn_ok_handler)
         self.lineEdit_width.textChanged.connect(self.lineEdit_width_handler)
         self.lineEdit_height.textChanged.connect(self.lineEdit_height_handler)
@@ -61,6 +61,7 @@ class Mainwindow(QMainWindow, Ui_MainWindow):
                         win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, temPos[0], temPos[1], 0, 0)
                         time.sleep(self.long_delay)
                         win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, temPos[0], temPos[1], 0, 0)
+                        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, temPos[0], temPos[1], 0, 0)
                         temPos[0] = temPos[0] + int(self._range)
                         movePos = (temPos[0], temPos[1])
                         win32api.SetCursorPos(movePos)
@@ -102,8 +103,8 @@ class Mainwindow(QMainWindow, Ui_MainWindow):
         if flag:
             self.expect_time = int(self.int_width/self.int_range) * int(self.int_height/self.int_range)
             self.expect_time = self.expect_time * (self.long_delay + self.long_delay + self.short_delay + self.short_delay)
-            self.expect_time = self.expect_time / 60
-            text += "예상 시간 : " + str(self.expect_time) + "분 \n"
+            self.expect_time = int(self.expect_time / 60)
+            text += "예상 시간 : 약" + str(self.expect_time + 1) + "분 \n"
         self.label_set_info.setText(text)
         
     def lineEdit_range_handler(self, text):
