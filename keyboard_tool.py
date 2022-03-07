@@ -158,7 +158,7 @@ def press(*args):
     '''
     for i in args:        
         win32api.keybd_event(VK_CODE[i], win32api.MapVirtualKey(VK_CODE[i], 0),0,0)
-        time.sleep(.2)
+        time.sleep(.05)
         win32api.keybd_event(VK_CODE[i], win32api.MapVirtualKey(VK_CODE[i], 0),win32con.KEYEVENTF_KEYUP ,0)
 
 def pressAndHold(*args):
@@ -169,7 +169,7 @@ def pressAndHold(*args):
     '''
     for i in args:
         win32api.keybd_event(VK_CODE[i], win32api.MapVirtualKey(VK_CODE[i], 0),0,0)
-        time.sleep(.05)
+        time.sleep(.01)
            
 def pressHoldRelease(*args):
     '''
@@ -182,7 +182,7 @@ def pressHoldRelease(*args):
     '''
     for i in args:
         win32api.keybd_event(VK_CODE[i], win32api.MapVirtualKey(VK_CODE[i], 0),0,0)
-        time.sleep(.05)
+        time.sleep(.005)
             
     for i in args:
             win32api.keybd_event(VK_CODE[i], win32api.MapVirtualKey(VK_CODE[i], 0),win32con.KEYEVENTF_KEYUP ,0)

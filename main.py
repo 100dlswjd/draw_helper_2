@@ -15,8 +15,8 @@ class Mainwindow(QMainWindow, Ui_MainWindow):
         self._width = "0"
         self._height = "0"
         self._range = "0"
-        self.long_delay = .01
-        self.short_delay = .05
+        self.long_delay = .025
+        self.short_delay = .0075
         self.btn_ok.clicked.connect(self.btn_ok_handler)
         self.lineEdit_width.textChanged.connect(self.lineEdit_width_handler)
         self.lineEdit_height.textChanged.connect(self.lineEdit_height_handler)
@@ -35,15 +35,14 @@ class Mainwindow(QMainWindow, Ui_MainWindow):
     """
     def thread_proc(self):
         while self.exit_event.is_set() == False:
-            print("제일 바깥임")
+            #print("제일 바깥임")
             flag = False
             if win32api.GetAsyncKeyState(win32con.VK_F10) & 0x8000:
                 time.sleep(.25)
                 self.label_info.setText("실행중 . . . (중지 F10)")
                 print("F10 눌름 ! 쓰레드시작 !")
-                self.expect_time = (int(int(self.int_height)/int(self.int_range)) * int(int(self.int_width)/int(self.int_range))) * ( 2 *(self.short_delay + self.long_delay))
+                #self.expect_time = (int(int(self.int_height)/int(self.int_range)) * int(int(self.int_width)/int(self.int_range))) * ( 2 *(self.short_delay + self.long_delay))
                 Pos = win32api.GetCursorPos()
-
                 temPos = [Pos[0], Pos[1]]
                 for height in range(int(int(self.int_height)/int(self.int_range))):
                     for width in range(int(int(self.int_width)/int(self.int_range))):
@@ -51,16 +50,17 @@ class Mainwindow(QMainWindow, Ui_MainWindow):
                             time.sleep(.25)
                             flag = True
                             break
-                        keyboard_tool.pressAndHold("alt")
-                        time.sleep(self.short_delay)
-                        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, temPos[0], temPos[1], 0, 0)
+                        #keyboard_tool.pressAndHold("alt")
+                        win32api.keybd_event(0x12, win32api.MapVirtualKey(0x12, 0),0,0)
                         time.sleep(self.long_delay)
-                        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, temPos[0], temPos[1], 0, 0)
-                        keyboard_tool.release("alt")
-                        time.sleep(self.short_delay)
                         win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, temPos[0], temPos[1], 0, 0)
-                        time.sleep(self.long_delay)
+                        time.sleep(self.short_delay)
                         win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, temPos[0], temPos[1], 0, 0)
+                        win32api.keybd_event(0x12, win32api.MapVirtualKey(0x12, 0),win32con.KEYEVENTF_KEYUP ,0)
+                        win32api.keybd_event(0x12, win32api.MapVirtualKey(0x12, 0),win32con.KEYEVENTF_KEYUP ,0)
+                        time.sleep(self.long_delay)
+                        win32api.mouse_event(win32con.MOUSEEVENTF_LEFTDOWN, temPos[0], temPos[1], 0, 0)
+                        time.sleep(self.short_delay)
                         win32api.mouse_event(win32con.MOUSEEVENTF_LEFTUP, temPos[0], temPos[1], 0, 0)
                         temPos[0] = temPos[0] + int(self._range)
                         movePos = (temPos[0], temPos[1])
@@ -101,9 +101,11 @@ class Mainwindow(QMainWindow, Ui_MainWindow):
             flag = False
         
         if flag:
-            self.expect_time = int(self.int_width/self.int_range) * int(self.int_height/self.int_range)
-            self.expect_time = self.expect_time * (self.long_delay + self.long_delay + self.short_delay + self.short_delay)
+            self.expect_time = int(int(self.int_height)/int(self.int_range))
+            self.expect_time = self.expect_time * int(int(self.int_width)/int(self.int_range))
+            self.expect_time = self.expect_time * (self.long_delay + self.long_delay + self.short_delay + self.short_delay + 0.005)
             self.expect_time = int(self.expect_time / 60)
+            self.expect_time = self.expect_time + int((self.expect_time+1) / 2)
             text += "예상 시간 : 약" + str(self.expect_time + 1) + "분 \n"
         self.label_set_info.setText(text)
         
