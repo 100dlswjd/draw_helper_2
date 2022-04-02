@@ -16,7 +16,7 @@ class Mainwindow(QMainWindow, Ui_MainWindow):
         self._height = "0"
         self._range = "0"
         self.long_delay = .025
-        self.short_delay = .0075
+        self.short_delay = .0075     
         self.btn_ok.clicked.connect(self.btn_ok_handler)
         self.lineEdit_width.textChanged.connect(self.lineEdit_width_handler)
         self.lineEdit_height.textChanged.connect(self.lineEdit_height_handler)
